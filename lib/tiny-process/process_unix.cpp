@@ -12,6 +12,10 @@
 #include <string.h>
 #include <unistd.h>
 
+#ifndef NAME_MAX
+#define NAME_MAX FILENAME_MAX
+#endif
+
 namespace TinyProcessLib {
 
 static int portable_execvpe(const char *file, char *const argv[], char *const envp[]) {
@@ -30,12 +34,14 @@ static int portable_execvpe(const char *file, char *const argv[], char *const en
   }
 
   const char *path = getenv("PATH");
+#if !defined(__redox__)
   char cspath[PATH_MAX + 1] = {};
   if(!path) {
     // If env variable is not set, use static path string.
     confstr(_CS_PATH, cspath, sizeof(cspath));
     path = cspath;
   }
+#endif
 
   const size_t path_len = strlen(path);
   const size_t file_len = strlen(file);
