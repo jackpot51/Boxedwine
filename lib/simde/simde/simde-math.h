@@ -1186,8 +1186,8 @@ simde_math_fpclassify(double v) {
 
 #if !defined(simde_math_roundevenf)
   #if \
-      HEDLEY_HAS_BUILTIN(__builtin_roundevenf) || \
-      HEDLEY_GCC_VERSION_CHECK(10,0,0)
+      (HEDLEY_HAS_BUILTIN(__builtin_roundevenf) || \
+      HEDLEY_GCC_VERSION_CHECK(10,0,0)) && !defined(__redox__)
     #define simde_math_roundevenf(v) __builtin_roundevenf(v)
   #elif defined(simde_math_roundf) && defined(simde_math_fabsf)
     static HEDLEY_INLINE
