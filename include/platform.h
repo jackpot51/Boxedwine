@@ -46,7 +46,7 @@
 #include <setjmp.h>
 #endif
 
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__redox__)
 #define lseek64 lseek
 #endif
 
